@@ -4,6 +4,7 @@ const person =require('./models/person')
 const menuItem = require('./models/menu')
 const PERSONROUTER =require('./routes/person_routes')
 const MENUROUTER = require('./routes/menu_routes')
+const AUTHENTICATION =require('./routes/auth_routes');
 
 const cors = require("cors")
 
@@ -16,6 +17,7 @@ app.use(express.json());
 
 app.use('/person',PERSONROUTER,);
 app.use('/menu',MENUROUTER);
+app.use('/auth',AUTHENTICATION);
 
 
 app.use("/",(req,res)=>{
