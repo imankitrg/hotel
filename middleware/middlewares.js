@@ -12,6 +12,14 @@ const verifyToken = (req, res, next) => {
         const decoded = jwt.verify(token.split(' ')[1], 'mysecretkey');
         req.user = decoded; // yahan se controller me req.user.id milega
         next();
+
+        // const isAdmin = (req, res, next) => {
+        // if (req.user.role !== "admin") {
+        //     return res.status(403).json({ message: "Access denied. Admin only!" });
+        // }
+    
+
+
     } catch (error) {
     res.status(400).json({ message: 'Invalid Token' });
     }

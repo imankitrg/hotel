@@ -1,14 +1,17 @@
 // const { Router } = require('express');
 const express = require('express')
-const {createperson,getperson,getpersonbyid,updateperson,deleteperson} = require('../controllers/personController');
+const {updateProfile} = require('../controllers/personController');
+const verifyToken = require('../middleware/middlewares');
 // const {signup} = require('../controllers/authController')
 const Router= express.Router();
 
-Router.post('/create',createperson);
-Router.get('/get',getperson);
-Router.get('/:id',getpersonbyid);
-Router.put('/update/:id',updateperson);
-Router.delete('/delete/:id',deleteperson)
+Router.put('/update/:id',verifyToken,updateProfile);
+
+// Router.post('/create',createperson);
+// Router.get('/get',getperson);
+// Router.get('/:id',getpersonbyid);
+// Router.put('/update/:id',verifyToken,updateperson);
+// Router.delete('/delete/:id',deleteperson)
 // Router.post('/signup',signup)
 
 
