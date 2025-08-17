@@ -4,7 +4,7 @@ const connectdb = async () =>{
 
     try{
 
-    const db = await mongoose.connect('mongodb://localhost:27017/hoteldb');
+    const db = await mongoose.connect(process.env.MONGO_URI);
     console.log("mongodb connected ");
 
     }catch(err){

@@ -10,4 +10,4 @@ Router.get('/get/:id',getmenubyid);
 Router.put('/update/:id',updatemenu);
 Router.delete('/delete/:id',deletemenu);
 
-module.exports=Router;
+module.exports=Router; 

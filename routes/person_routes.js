@@ -5,7 +5,7 @@ const verifyToken = require('../middleware/middlewares');
 // const {signup} = require('../controllers/authController')
 const Router= express.Router();
 
-Router.put('/update/:id',verifyToken,updateProfile);
+Router.put('/update',verifyToken,updateProfile);
 
 // Router.post('/create',createperson);
 // Router.get('/get',getperson);

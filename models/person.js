@@ -52,4 +52,10 @@ const personschema = mongoose.Schema({
 // created person model
 
 // const person =mongoose.model('person',personschema);
-module.exports=mongoose.model('Person',personschema);
+/**
+ * @type {mongoose.Model<   >}
+ */
+const Person = mongoose.model("person",personschema)
+
+
+module.exports=Person;

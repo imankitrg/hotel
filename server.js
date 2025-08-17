@@ -7,6 +7,8 @@ const MENUROUTER = require('./routes/menu_routes')
 const AUTHENTICATION =require('./routes/auth_routes');
 
 const cors = require("cors")
+require("dotenv").config();
+
 
 
 // app.use(express.json());
@@ -29,6 +31,6 @@ app.use("/",(req,res)=>{
 connectdb();
 
 
-app.listen(3000,()=>{
+app.listen(process.env.PORT,()=>{
     console.log("listeing on 3000")
 })

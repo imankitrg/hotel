@@ -31,7 +31,7 @@ const signup = async (req,res) => {
 
 // 
 
-const JWT_SECRET = 'mysecretkey';
+// const JWT_SECRET = 'mysecretkey';
 
 const loginUser = async (req, res) => {
 
@@ -54,8 +54,8 @@ const loginUser = async (req, res) => {
     // Create JWT token
     const token = jwt.sign(
         { id: user._id, email: user.email, role:user.role },
-        JWT_SECRET,
-        { expiresIn: '1h' }
+        process.env.JWT_SECRET,
+        { expiresIn: '120s' }
     );
 
     res.status(200).json({ msg: 'Login successful', token });

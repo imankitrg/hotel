@@ -1,18 +1,20 @@
-const Person =require('../models/person');
+const Person = require("../models/person");
 
 const updateProfile = async (req, res) => {
     try {
-    // ✅ Allowed fields only
-    const allowedFields = ["name", "age", "mobile", "address","salary","username","role"];
-    
-    // Filter request body
-    const updates = {};
-    allowedFields.forEach(field => {
+    const allowedFields = ["name", "age", "mobile", "address", "username"];
+    const adminOnlyFields = ["salary", "role"];
 
-        if (req.body[field] !== undefined) {
-        updates[field] = req.body[field];
-        }
+    const updates = {};
+    [...allowedFields, ...adminOnlyFields].forEach(field => {
+
+    if (req.body[field] !== undefined) updates[field] = req.body[field];
     });
+
+    // ⚠️ Admin-only check
+    if ((updates.role || updates.salary) && req.user.role !== "admin") {
+        return res.status(403).json({ message: "Access denied. Admin only!" });
+    }
 
     const updatedUser = await Person.findByIdAndUpdate(
         req.user.id,
@@ -22,17 +24,17 @@ const updateProfile = async (req, res) => {
 
     res.json({
         message: "Profile updated successfully",
-        user: updatedUser 
+        user: updatedUser
     });
+
     } catch (err) {
-        console.log(err)
-        res.status(500).json({ message: " nahi ho raha " });
+    console.error("Update Error:", err.message);
+    res.status(500).json({ message: "Server error while updating profile" });
     }
 };
 
+module.exports = { updateProfile };
 
-
-module.exports={updateProfile};
 
 // // post req
 // const createperson = async (req,res) => {
