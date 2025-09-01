@@ -1,18 +1,12 @@
 // const { Router } = require('express');
 const express = require('express')
-const {updateProfile} = require('../controllers/personController');
+const {deleteMyAccount,deleteUserByAdmin, updateProfile} = require('../controllers/personController');
 const verifyToken = require('../middleware/middlewares');
 // const {signup} = require('../controllers/authController')
 const Router= express.Router();
 
-Router.put('/update',verifyToken,updateProfile);
-
-// Router.post('/create',createperson);
-// Router.get('/get',getperson);
-// Router.get('/:id',getpersonbyid);
-// Router.put('/update/:id',verifyToken,updateperson);
-// Router.delete('/delete/:id',deleteperson)
-// Router.post('/signup',signup)
-
+Router.put("/update",verifyToken,updateProfile)
+Router.delete("/delete", verifyToken, deleteMyAccount); // user apna account delete kare
+Router.delete("/delete/:id", verifyToken, deleteUserByAdmin);  // admin kisi bhi user ko delete kare
 
 module.exports=Router;

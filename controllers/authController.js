@@ -103,15 +103,19 @@ const createStaff = async (req, res) => {
 
 
 const getProfile = async (req, res) => {
-
     try {
-    // verifyToken middleware se req.user mil chuka hoga
-    const user = await Person.findById(req.user.id).select('-password');
-        res.json({ user });
+    let user = await Person.findById(req.user.id).select("-password");
 
+    // Agar normal user hai toh salary aur role return hi mat kar
+    if (user.role === "user") {
+        user = user.toObject();
+        delete user.salary;
+        delete user.role;
+    }
+
+    res.json({ user });
     } catch (err) {
-        console.log(err)
-        res.status(500).json({ message: 'Server Error' });
+    res.status(500).json({ message: "Server Error" });
     }
 };
 
