@@ -13,20 +13,35 @@ const menuschema = mongoose.Schema({
     taste:{
         type:String,
         enum:['sweet','spicy','sour'],
-        required:true
+        default:'spicy'
     },
     is_drink:{
         type:Boolean,
         default:false
     },
-    ingresients:{
+    ingredients:{
         type:[String],
         default:[]
+    },
+    isAvailable: {
+    type: Boolean
+    , default: true
+    },
+    category: {
+    type: String,
+    enum: ['starter', 'main_course', 'dessert', 'drink'],
+    required: true
     },
     num_sales:{
         type:Number,
         default:0,
+    },
+    description: {
+    type:String,
+    default:null
     }
+},{ timestamps: true 
+    
 
 });
 

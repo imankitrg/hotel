@@ -1,7 +1,9 @@
 const Person = require('../models/person');
 const bcrypt = require('bcrypt');
 const  jwt = require('jsonwebtoken');
-// const user = require('../models/person');
+
+
+// this is our auth signup route
 
 const signup = async (req,res) => {
     
@@ -12,15 +14,16 @@ const signup = async (req,res) => {
         const userexist = await Person.findOne({email});   
         
         if (userexist){
-            return res.status(404).json({msg:"user alredy exist"})
+            return res.status(400).json({msg:"user alredy exist"})
         }
         const hashedPassword = await bcrypt.hash(password,10);
 
         const user = new Person({ name, email, password: hashedPassword });
                 await user.save();
-                res.status(201).json({
+                res.status(201).json({msg:"you are welcoome to the my hotel-app",
                 user,
                 });
+                console.log("user signup succesfully")
 
     }catch(err){
         console.log(err);
@@ -29,9 +32,9 @@ const signup = async (req,res) => {
     }
 };
 
-// 
+// this is our auth login route
 
-// const JWT_SECRET = 'mysecretkey';
+// --------------------------------------------------------------------------------------
 
 const loginUser = async (req, res) => {
 
@@ -55,7 +58,7 @@ const loginUser = async (req, res) => {
     const token = jwt.sign(
         { id: user._id, email: user.email, role:user.role },
         process.env.JWT_SECRET,
-        { expiresIn: '120s' }
+        { expiresIn: '1000s' }
     );
 
     res.status(200).json({ msg: 'Login successful', token });
@@ -65,8 +68,39 @@ const loginUser = async (req, res) => {
     }
 };
 
+
+// admin route for creating hotel-staaf
+
+//---------------------------------------------------------------------------------------------
+
+// Admin-only route to create staff
+
+const createStaff = async (req, res) => {
+    try {
+    if (req.user.role !== "admin") {
+        return res.status(403).json({ msg: "Access denied" });
+    }
+
+    const { name, email, password, role } = req.body;
+    const userexist = await Person.findOne({ email });
+    if (userexist) return res.status(400).json({ msg: "User already exists" });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const staff = new Person({ name, email, password: hashedPassword, role });
+
+    await staff.save();
+
+    res.status(201).json({ msg: "Staff created", staff });
+    } catch (err) {
+        console.log(err)
+    res.status(500).json({ msg: "Server error" });
+    }
+};
+
 // get your profile 
-// controller/userController.js
+
+// -----------------------------------------------------------------------------------------------
+
 
 const getProfile = async (req, res) => {
 
@@ -82,6 +116,6 @@ const getProfile = async (req, res) => {
 };
 
 
-module.exports = { signup ,loginUser,getProfile};
+module.exports = { signup,loginUser,getProfile,createStaff};
 
 

@@ -13,8 +13,8 @@ const personschema = mongoose.Schema({
     },
     role:{
         type:String,
-        enum:['chef','manager','waiter','admin'],
-        default: null 
+        enum:['chef','manager','waiter','admin','user'],
+        default:"user"
     },
     mobile:{
         type:Number,
