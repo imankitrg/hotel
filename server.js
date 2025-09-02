@@ -5,6 +5,7 @@ const menuItem = require('./models/menu')
 const PERSONROUTER =require('./routes/person_routes')
 const MENUROUTER = require('./routes/menu_routes')
 const AUTHENTICATION =require('./routes/auth_routes');
+const ORDERROUTER=require('./routes/order_routes')
 
 const cors = require("cors")
 require("dotenv").config();
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use('/person',PERSONROUTER,);
 app.use('/menu',MENUROUTER);
 app.use('/auth',AUTHENTICATION);
+app.use('/order',ORDERROUTER);
 
 
 app.use("/",(req,res)=>{

@@ -7,7 +7,7 @@ const Router = express.Router();
 Router.post('/create',verifyToken,isAdmin,createmenu);
 Router.get('/get',getmenu);
 Router.get('/get/:id',getmenubyid);
-Router.put('/update/:id',verifyToken,updatemenu);
-Router.delete('/delete/:id',verifyToken,deletemenu);
+Router.put('/update/:id',verifyToken,isAdmin,updatemenu);
+Router.delete('/delete/:id',verifyToken,isAdmin,deletemenu);
 
 module.exports=Router; 
