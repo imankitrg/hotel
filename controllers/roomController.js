@@ -22,4 +22,30 @@ const createRoom = async (req, res) => {
   }
 };
 
-module.exports={createRoom}
+// ----------------------------------------------------------------------------------------
+
+// GET /api/rooms
+const getAllRooms = async (req, res) => {
+  try {
+    const rooms = await Room.find();
+    res.json({ rooms });
+  } catch (err) {
+    res.status(500).json({ msg: "Server error while fetching rooms" });
+  }
+};
+
+// -----------------------------------------------------------------------------------------
+
+// GET /api/rooms/:id
+const getRoomById = async (req, res) => {
+  try {
+    const room = await Room.findById(req.params.id);
+    if (!room) return res.status(404).json({ msg: "Room not found" });
+    res.json(room);
+  } catch (err) {
+    res.status(500).json({ msg: "Server error while fetching room" });
+  }
+};
+//--------------------------------------------------------------------------------------------------
+
+module.exports={createRoom,getAllRooms,getRoomById}

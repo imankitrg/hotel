@@ -28,10 +28,47 @@ const bookRoom = async (req, res) => {
     await room.save();
 
     res.status(201).json({ msg: "Room booked successfully", booking });
-  } catch (err) {
+    console.log("room is booked ,thankyou")
+  
+    } catch (err) {
+
     console.error("Booking Error:", err.message);
+    
     res.status(500).json({ msg: "Server error while booking room" });
   }
 };
 
-module.exports={bookRoom};
+// -------------------------------------------------------------------------------------------
+
+// GET /api/bookings/my
+const getMyBookings = async (req, res) => {
+  try {
+    const bookings = await Booking.find({ user: req.user.id })
+      .populate("room", "roomNumber type price"); // optional: room details bhi laa de
+    res.json({ bookings });
+  } catch (err) {
+    res.status(500).json({ msg: "Server error while fetching your bookings" });
+  }
+};
+
+// --------------------------------------------------------------------------------------------------
+
+// GET /api/bookings
+const getAllBookings = async (req, res) => {
+  try {
+    if (req.user.role !== "admin" && req.user.role !== "staff") {
+      return res.status(403).json({ msg: "Access denied" });
+    }
+
+    const bookings = await Booking.find()
+      .populate("user", "name email")
+      .populate("room", "roomNumber type");
+    res.json({ bookings });
+  } catch (err) {
+    res.status(500).json({ msg: "Server error while fetching bookings" });
+  }
+};
+
+
+
+module.exports={bookRoom,getMyBookings,getAllBookings};
