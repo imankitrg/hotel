@@ -3,9 +3,17 @@ const mongoose = require("mongoose");
 const orderSchema = new mongoose.Schema({
         user: { 
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Person", required: true
-        }, // kisne order kiya
-        
+        ref: "person", required: true
+        }, 
+        // kisne order kiya
+        deliveryAddress: {
+  name: String,
+  phone: String,
+  address: String,
+  city: String,
+  pincode: String,
+  landmark: String,
+},
         items: [
         {
         name: String,

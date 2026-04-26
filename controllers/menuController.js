@@ -2,20 +2,28 @@ const MenuItem = require('../models/menu');
 
 // post method for create menuitem
 
-const createmenu = async (req,res) =>{
+const createmenu = async (req, res) => {
+  try {
+    let result;
 
-    try{
-
-        const newmenu = new MenuItem(req.body);
-        const savedmenu = await newmenu.save();
-        res.status(201).json(savedmenu);
-        console.log("menu created successfully");
-
-    }catch(err){
-        console.log(err);
-        res.status(500).json({msg:"internal server error "});
-
+    if (Array.isArray(req.body)) {
+      // multiple items
+      result = await MenuItem.insertMany(req.body);
+    } else {
+      // single item
+      result = await MenuItem.create(req.body);
     }
+
+    res.json({
+      success: true,
+      data: result
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
+  }
 };
 
 const getmenu =async (req,res) =>{
@@ -24,6 +32,7 @@ const getmenu =async (req,res) =>{
         const menu = await MenuItem.find();
         res.status(200).json(menu);
         console.log("menu item feched");
+        // console.log(menu);
 
 
     }catch(err){
