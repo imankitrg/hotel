@@ -31,7 +31,7 @@ code .
 ### Step 2 — Install Dependencies
 
 ```bash
-npm install bcrypt cors dotenv express jsonwebtoken mongoose
+npm install bcrypt cors dotenv express jsonwebtoken mongoose nodemon
 ```
 
 | Package | Version | Purpose |
@@ -42,6 +42,7 @@ npm install bcrypt cors dotenv express jsonwebtoken mongoose
 | `bcrypt` | ^6.0.0 | Password hashing |
 | `dotenv` | ^17.2.1 | Environment variables |
 | `cors` | ^2.8.5 | Cross-origin requests |
+| `nodemon` | ^3.0.0 | automatically restarts your Node.js server whenever you make file changes. |
 
 ### Step 3 — Create `server.js`
 
