@@ -15,7 +15,16 @@ require("dotenv").config();
 // app.use(express.json());
 
 const app = express();
-app.use(cors());
+// app.use(cors({
+//   origin: "https://food-app-eta-mocha.vercel.app/" // apna vercel URL
+// }));
+
+app.use(cors({
+  origin: [
+    "http://localhost:8080",
+    "https://foodbite-dusky.vercel.app/"
+  ]
+}));
 app.use(express.json());
 
 app.use("/person", PERSONROUTER);
