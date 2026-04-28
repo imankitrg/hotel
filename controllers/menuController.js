@@ -4,21 +4,21 @@ const MenuItem = require('../models/menu');
 
 const createmenu = async (req, res) => {
   try {
-    let result;
+    const newItem = new MenuItem({
+      ...req.body,
+      image: req.file.path // 👈 YE LINE MOST IMPORTANT
+    });
 
-    if (Array.isArray(req.body)) {
-      // multiple items
-      result = await MenuItem.insertMany(req.body);
-    } else {
-      // single item
-      result = await MenuItem.create(req.body);
-    }
+    const saved = await newItem.save();
 
     res.json({
       success: true,
-      data: result
+      data: saved
     });
+    console.log("FILE:", req.file);
+
   } catch (err) {
+    console.log(err);
     res.status(500).json({
       success: false,
       message: err.message
