@@ -4,17 +4,35 @@ const MenuItem = require('../models/menu');
 
 const createmenu = async (req, res) => {
   try {
-    const newItem = new MenuItem({
-      ...req.body,
-      image: req.file.path // 👈 YE LINE MOST IMPORTANT
-    });
 
-    const saved = await newItem.save();
+    let result;
+
+    // 🔥 agar array aaya → bulk insert
+    if (Array.isArray(req.body)) {
+
+      const items = req.body.map(item => ({
+        ...item,
+        image: item.image // JSON wala case
+      }));
+
+      result = await MenuItem.insertMany(items);
+
+    } else {
+
+      // 🔥 single item (tera current logic same)
+      const newItem = new MenuItem({
+        ...req.body,
+        image: req.file?.path || req.body.image
+      });
+
+      result = await newItem.save();
+    }
 
     res.json({
       success: true,
-      data: saved
+      data: result
     });
+
     console.log("FILE:", req.file);
 
   } catch (err) {
