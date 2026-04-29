@@ -33,7 +33,7 @@ const createmenu = async (req, res) => {
       data: result
     });
 
-    console.log("FILE:", req.file);
+    // console.log("FILE:", req.file);
 
   } catch (err) {
     console.log(err);

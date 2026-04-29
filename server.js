@@ -9,12 +9,15 @@ const ORDERROUTER = require("./routes/order_routes");
 const CREATEROOM = require("./routes/room_routes");
 const BOOKINGROOM = require("./routes/booking_routes");
 
-const cors = require("cors");
-require("dotenv").config();
+const app = express(); // Create an instance of the Express application
 
-// app.use(express.json());
+const cors = require("cors"); // Import the CORS middleware
 
-const app = express();
+require("dotenv").config(); // Load environment variables from a .env file into process.env
+
+app.use(express.json()); // Middleware to parse incoming JSON requests
+
+// const app = express();
 
 app.use(cors());
 
@@ -26,13 +29,13 @@ app.use(cors());
 
 // app.options('/*', cors());// 👈 ye preflight fix karega
 
-// app.use(cors({
-//   origin: [
-//     "http://localhost:8080",
-//     "https://foodbite-dusky.vercel.app"
-//   ]
-// }));
-app.use(express.json());
+app.use(cors({
+  origin: [
+    "http://localhost:3000",
+    "https://foodbite-dusky.vercel.app"
+  ]
+}));
+// app.use(express.json());
 
 app.use("/person", PERSONROUTER);
 app.use("/menu", MENUROUTER);
